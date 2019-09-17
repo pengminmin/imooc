@@ -1,0 +1,71 @@
+999 未知错误或者不想让客户端知道的错误
+
+1 通用错误
+2 产品类错误
+3 主题类错误
+4 banner类错误
+5 类型的错误
+
+
+
+10000 同意参数错误
+20000 产品不存在
+30000 请求的主题不存在
+40000 banner不存在
+50000 类型不存在
+
+
+
+
+
+
+
+
+url
+z.cn/api/v1/banner/1?XDEBUG_SESSION_START=13057
+z.cn/api/v1/theme/1?XDEBUG_SESSION_START=13057
+z.cn/api/v1/theme?ids=1,2,3&XDEBUG_SESSION_START=13057
+z.cn/api/v1/product/recent?count=1&XDEBUG_SESSION_START=13057
+z.cn/api/v1/category/all?count=1&XDEBUG_SESSION_START=13057
+z.cn/api/v1/product/by_category?id=3&XDEBUG_SESSION_START=13057
+z.cn/api/v1/token/user?XDEBUG_SESSION_START=13057
+z.cn/api/v1/product/2?XDEBUG_SESSION_START=13057
+
+
+
+RESTFul API
+
+HTTP动词
+
+POST:创建
+PUT:更新
+GET:查询
+DELETE:删除
+
+状态码
+404:资源没有找到
+400:参数错误
+200:GET请求成功
+201:POST请求成功
+202:PUT更新成功【HTTP中202指的是请求已经发送但是服务器还没处理】，有的把PUT和POST请求成功都设成201
+401:未授权
+403:当前资源被禁止【1、你有这个资源但是因为什么原因这个资源暂时禁止你访问；2、A用户操作B用户异常返回403】
+500:服务器未知错误【1、我不知道错误在哪；2、我知道错误但是跟客户端没有关系，不想返回给客户端就返回500】
+
+模型
+think 命令创建模型
+php think make:model api/BannerItem
+
+显示字段
+$protected $visible = ['id', 'name'];
+隐藏字段
+$protected $hidden = ['update_time', 'delete_time'];
+读取器
+public function getUrlAttr($value){
+    return config('setting.img_prefix').$value;
+}
+模型一对一关联关系
+Theme 有外键 使用 $this->belongsTo();
+img 没有外键 使用 $this->hasOne();
+
+模型多对对会带一个字段 pivot 需要隐藏
